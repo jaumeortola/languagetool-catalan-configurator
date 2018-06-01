@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <title>Configurador de LanguageTool en català/valencià</title>
+    <head>
+        <script type="text/javascript" src="js/jquery-1.7.0.min.js"></script>
+        <script type="text/javascript" src="js/languagetool.js"></script>
+        <style>
+            table {
+            border-collapse: collapse;
+            }
+            table, td, th {
+            border: .5px solid black;
+            padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Configurador de LanguageTool en català/valencià</h2>
+        <input type="hidden" name="lang" value="ca-ES-valencia"/>
+        <div>
+            <div id="feedbackErrorMessage" style="color: red;">
+                <noscript>JavaScript està desactivat. La pàgina no funcionarà.</noscript>
+            </div>
+        </div>
+        <!--Opcions-->
+        <div id="opcions_valencia">
+            <table summary="opcions de correcció" border="1">
+                <tr>
+                    <td>Llibre d'estil</td>
+                    <td colspan="2">
+                        <input type="radio" name="opcio_general" id="criteris_gva" value="criteris_gva" onchange="doit();" checked> <a href="http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf" target="_blank">Criteris de l'Administració de la Generalitat</a><br/>
+                        <input type="radio" name="opcio_general" id="criteris_uv" value="criteris_uv" onchange="doit();"> <a href="https://sl.ua.es/en/assessorament/documentos/criteris-linguistics.pdf" target="_blank">Universitats valencianes</a><br/>
+                        <input type="radio" name="opcio_general" id="criteris_cap" value="criteris_cap" onchange="doit();"> Cap<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Verbs incoatius</td>
+                    <td><input type="radio" name="incoatius" id="incoatius_eix" value="incoatius_eix" onchange="doit();" checked>-eix (serveix)</td>
+                    <td><input type="radio" name="incoatius" id="incoatius_ix" value="incoatius_ix" onchange="doit();">-ix (servix)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="radio" name="incoatius2" id="incoatius_isc" value="incoatius_isc" onchange="doit();" checked>-isc (servisc)
+                    <td><input type="radio" name="incoatius2" id="incoatius_esc" value="incoatius_esc" onchange="doit();">-esc (servesc)</td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Demostratius</td>
+                    <td><input type="radio" name="demostratius" id="demostratius_aquest" value="demostratius_aquest" onchange="doit();" checked>aquest</td>
+                    <td><input type="radio" name="demostratius" id="demostratius_este" value="demostratius_este" onchange="doit();">este</td>
+                </tr>
+                <tr>
+                    <td>Accentuació</td>
+                    <td><input type="radio" name="accentuacio" id="accentuacio_valenciana" value="accentuacio_valenciana" onchange="doit();" checked>café</td>
+                    <td><input type="radio" name="accentuacio" id="accentuacio_general" value="accentuacio_general" onchange="doit();">cafè</td>
+                </tr>
+                <tr>
+                    <td>Concordança</td>
+                    <td><input type="radio" name="concorda_dues" id="concorda_dos_dues" value="concorda_dos_dues" checked onchange="doit();">dos/dues</td>
+                    <td><input type="radio" name="concorda_dues" id="concorda_dos" value="concorda_dos" onchange="doit();">dos</td>
+                </tr>
+                <tr>
+                    <td><a href="http://www.avl.gva.es/documents/84900/91479/Denominaci%C3%B3+dels+municipis+valencians/" target="_blank">Municipis valencians</a>:</td>
+                    <td><input type="radio" name="municipis" id="municipi_nom_valencia" value="municipi_nom_valencia" onchange="doit();" checked>nom valencià</td>
+                    <td><input type="radio" name="municipis" id="municipi_nom_oficial" value="municipi_nom_oficial" onchange="doit();">nom oficial</td>
+                </tr>
+                <tr>
+                    <td>Lèxic</td>
+                    <td colspan="2"><input type="checkbox" name="recomana_preferents" value="recomana_preferents" onchange="doit();" checked> Recomana paraules i formes preferents<br/>
+                        <input type="checkbox" name="evita_colloquials" value="evita_colloquials" onchange="doit();" checked> Evita paraules i formes col·loquials
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Tipografia</td>
+                    <td colspan="2">
+                        <input type="checkbox">Apòstrof tipogràfic<br/>
+                        <input type="checkbox">Cometes tipogràfiques<br/>
+                        <input type="checkbox">Símbol de tres punts<br/>
+                        Guió: <input name="guio" type="radio">llarg <input name="guio" type="radio">mitjà <input name="guio" type="radio">indefinit<br/>
+                        Guió per a: <input name="guiopera" type="radio">diàlegs <input name="guiopera" type="radio">enumeracions <input name="guiopera" type="radio">indefinit<br/>
+                        Interrogant inicial (¿): <input name="interrogant" type="radio">mai <input name="interrogant" type="radio">sempre <input name="interrogant" type="radio">indefinit<br/>
+                        Exclamació inicial (¡): <input name="exclamacio" type="radio">mai <input name="exclamacio" type="radio">sempre <input name="exclamacio" type="radio">indefinit<br/>
+                        Percentatge: <input name="percent" type="radio">sense espai <input name="percent" type="radio">amb espai <input name="percent" type="radio">indefinit<br/>
+
+                        
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/><br/>
+        <div id="container">
+            <textarea id="output_text" rows="10" cols="100" readonly></textarea><br/>
+            <output></output>
+        </div>
+    </body>
+</html>
