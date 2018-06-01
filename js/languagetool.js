@@ -18,7 +18,11 @@ function doit() {
     var enabledRules = ""; //PRE_IEC2017";
     var disabledCategories = ""; //DNV_PRIMARY_FORM";
 
-    
+    var ca_disabledRules = "";
+    var ca_enabledRules = ""; 
+    var ca_disabledCategories = ""; 
+
+
     if ($("input[name=opcio_general]:checked").val() == "criteris_gva") { 
 
         disabledRules = disabledRules + "PERCENT_SENSE_ESPAI,AL_INFINITIU,EVITA_INFINITIUS_INDRE,ORTO_IEC2017,CA_SIMPLE_REPLACE_DNV";
@@ -87,12 +91,63 @@ function doit() {
         disabledRules = disabledRules + ",CA_SIMPLE_REPLACE_DNV_COLLOQUIAL";
     };
 
-    var userOptions = "disabledRules=" + disabledRules + "&enabledRules=" + enabledRules + "&disabledCategories=" + disabledCategories;
+    //Opcions de tipografia
+    var typo_enabledRules = "";
+    var typo_disabledRules = "";
+
+    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules = typo_enabledRules + ",APOSTROF_TIPOGRAFIC"; };
+    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules = typo_enabledRules + ",APOSTROF_RECTE"; };
+    if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules = typo_enabledRules + ",GUIO_LLARG"; };
+    if ($("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules = typo_enabledRules + ",GUIO_MITJA"; };
+    if ($("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules = typo_enabledRules + ",GUIO_SENSE_ESPAI"; };
+    if ($("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules = typo_enabledRules + ",GUIO_ESPAI"; };
+    if ($("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_INTERROGACIO_INICIAL"; };
+    if ($("input[name=interrogant]:checked").val() == "interrogant_sempre") {typo_enabledRules = typo_enabledRules + ",CA_UNPAIRED_QUESTION"; };
+    //if ($("input[name=exclamacio]:checked").val() == "exclamacio_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
+    if ($("input[name=exclamacio]:checked").val() == "exclamacio_sempre") {
+        typo_enabledRules = typo_enabledRules + ",CA_UNPAIRED_EXCLAMATION"; 
+        typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; 
+    };
+    if ($("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
+    //if ($("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
+    if ($("input[name=percent]:checked").val() == "percent_ambespai") {
+        typo_enabledRules = typo_enabledRules + ",PERCENT_AMB_ESPAI"; 
+        typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI";};
+    if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI"; };
+
+    if (!$("input[name=cometes_tipografiques]:checked").val()) {
+        typo_disabledRules = typo_disabledRules + ",COMETES_TIPOGRAFIQUES";
+    };
+
+
+
+
+
+    //Variant principal: general/valecià/balear
+    if ($("input[name=variant]:checked").val() == "variant_general") {
+    } else if ($("input[name=variant]:checked").val() == "variant_valencia") {
+      ca_enabledRules = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
+      ca_disabledRules = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
+      ca_enabledRules = ca_enabledRules +","+ enabledRules;
+      ca_disabledRules = ca_disabledRules +","+ disabledRules;
+      ca_disabledCategories = disabledCategories;
+    } else if ($("input[name=variant]:checked").val() == "variant_balear") {
+      ca_enabledRules = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+      ca_disabledRules = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
+    }
+
+    ca_enabledRules = ca_enabledRules + "," + typo_enabledRules;
+    ca_disabledRules = ca_disabledRules + "," + typo_disabledRules;
+    enabledRules = enabledRules + "," + typo_enabledRules;
+    disabledRules = disabledRules + "," + typo_disabledRules;
 
     var today = new Date();
     $('#output_text').html(
-        "#LanguageTool configuration (Configurador català/valencià)\n" +
+        "#LanguageTool Catalan configuration\n" +
         "#" + today + "\n" +
+        "disabledRules.ca-ES=" + ca_disabledRules + "\n" +
+        "enabledRules.ca-ES=" + ca_enabledRules + "\n" +
+        "disabledCategories.ca-ES=" + ca_disabledCategories + "\n" +
         "disabledRules." + langCode + "=" + disabledRules + "\n" +
         "enabledRules." + langCode + "=" + enabledRules + "\n" +
         "disabledCategories." + langCode + "=" + disabledCategories + "\n"
@@ -142,7 +197,7 @@ function getCookie(cname) {
 
 function saveCookieStatus() {
     var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius',
-        'accentuacio', 'concorda_dues', 'municipis');
+        'accentuacio', 'concorda_dues', 'municipis', 'variant');
     $.each(regles_amb_radio, function(index, nom) {
         var valor = $('[type="radio"][name="' + nom + '"]:checked').val();
         setCookie(nom, valor, 365);
@@ -163,7 +218,7 @@ function saveCookieStatus() {
 
 function readCookieStatus() {
     var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius',
-        'accentuacio', 'concorda_dues', 'municipis');
+        'accentuacio', 'concorda_dues', 'municipis', 'variant');
     $.each(regles_amb_radio, function(index, nom) {
         var valor = getCookie(nom);
         if (valor !== undefined) {

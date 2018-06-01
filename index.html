@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
     <meta charset="UTF-8">
-    <title>Configurador de LanguageTool en català/valencià</title>
+    <title>Configurador de LanguageTool en català</title>
     <head>
         <script type="text/javascript" src="js/jquery-1.7.0.min.js"></script>
         <script type="text/javascript" src="js/languagetool.js"></script>
         <style>
-            table {
-            border-collapse: collapse;
-            }
-            table, td, th {
-            border: .5px solid black;
-            padding: 5px;
-            }
+	  table {
+	    border-collapse: collapse;
+	    border: .5px solid black;
+	  }
+	  td, th {
+	    padding: 2px;
+	  }
+	  .noborder {
+	    border: 0px;
+	  }
         </style>
     </head>
     <body>
-        <h2>Configurador de LanguageTool en català/valencià</h2>
+        <h2>Configurador de LanguageTool en català</h2>
         <input type="hidden" name="lang" value="ca-ES-valencia"/>
         <div>
             <div id="feedbackErrorMessage" style="color: red;">
@@ -25,6 +28,61 @@
         </div>
         <!--Opcions-->
         <div id="opcions_valencia">
+            <h4>Variant</h4>
+            <table summary="formes verbals" class="noborder">
+                <tr>
+                    <td><input type="radio" name="variant" id="variant_general"  value="variant_general"  onchange="doit();" checked>general</td>
+                    <td><input type="radio" name="variant" id="variant_valencia" value="variant_valencia" onchange="doit();">valencià</td>
+                    <td><input type="radio" name="variant" id="variant_balear"   value="variant_balear"   onchange="doit();">balear</td>
+                </tr>
+            </table>
+
+            <h4>Opcions de tipografia</h4>
+            <table summary="opcions de tipografia" border="1">
+                <tr>
+                    <td>Exigeix</td>
+                    <td colspan="3"><input type="checkbox">Cometes tipogràfiques
+                        <input type="checkbox">Símbol de tres punts</td>
+
+                </tr>
+                <tr>
+                    <td>Apòstrof</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_tipografic" value="apostrof_tipografic" onchange="doit();">tipogràfic</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_recte"      value="apostrof_recte"      onchange="doit();">recte</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_indefinit"  value="apostrof_indefinit"  onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Guió</td>
+                    <td><input type="radio" name="guio" id="guio_llarg"     value="guio_llarg"     onchange="doit();">llarg</td>
+                    <td><input type="radio" name="guio" id="guio_mitja"     value="guio_mitja"     onchange="doit();">mitjà</td>
+                    <td><input type="radio" name="guio" id="guio_indefinit" value="guio_indefinit" onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Guió per a</td> 
+                    <td><input type="radio" name="guiopera" id="guiopera_dialegs"      value="guiopera_dialegs"      onchange="doit();">diàlegs</td>
+                    <td><input type="radio" name="guiopera" id="guiopera_enumeracions" value="guiopera_enumeracions" onchange="doit();">enumeracions</td>
+                    <td><input type="radio" name="guiopera" id="guiopera_indefinit"    value="guiopera_indefinit"    onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Interrogant inicial (¿)</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_mai"       value="interrogant_mai"       onchange="doit();">mai</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_sempre"    value="interrogant_sempre"    onchange="doit();">sempre</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_indefinit" value="interrogant_indefinit" onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Exclamació inicial (¡):</td> 
+                    <td><input type="radio" name="exclamacio" id="exclamacio_mai"       value="exclamacio_mai"       onchange="doit();" checked>mai</td>
+                    <td><input type="radio" name="exclamacio" id="exclamacio_sempre"    value="exclamacio_sempre"    onchange="doit();">sempre</td>
+                    <td><input type="radio" name="exclamacio" id="exclamacio_indefinit" value="exclamacio_indefinit" onchange="doit();">indefinit</td>
+                </tr>
+                <tr>
+                    <td>Percentatge (%)</td>
+                    <td><input type="radio" name="percent" id="percent_senseespai" value="percent_senseespai" onchange="doit();" checked>10%</td>
+                    <td><input type="radio" name="percent" id="percent_ambespai"   value="percent_ambespai"   onchange="doit();">10&nbsp;%</td>
+                    <td><input type="radio" name="percent" id="percent_indefinit"  value="percent_indefinit"  onchange="doit();">indefinit</td>
+                </tr>
+            </table>
+            <h4>Opcions per al valencià</h4>
             <table summary="opcions de correcció" border="1">
                 <tr>
                     <td>Llibre d'estil</td>
@@ -71,23 +129,8 @@
                         <input type="checkbox" name="evita_colloquials" value="evita_colloquials" onchange="doit();" checked> Evita paraules i formes col·loquials
                     </td>
                 </tr>
-
-                <tr>
-                    <td>Tipografia</td>
-                    <td colspan="2">
-                        <input type="checkbox">Apòstrof tipogràfic<br/>
-                        <input type="checkbox">Cometes tipogràfiques<br/>
-                        <input type="checkbox">Símbol de tres punts<br/>
-                        Guió: <input name="guio" type="radio">llarg <input name="guio" type="radio">mitjà <input name="guio" type="radio">indefinit<br/>
-                        Guió per a: <input name="guiopera" type="radio">diàlegs <input name="guiopera" type="radio">enumeracions <input name="guiopera" type="radio">indefinit<br/>
-                        Interrogant inicial (¿): <input name="interrogant" type="radio">mai <input name="interrogant" type="radio">sempre <input name="interrogant" type="radio">indefinit<br/>
-                        Exclamació inicial (¡): <input name="exclamacio" type="radio">mai <input name="exclamacio" type="radio">sempre <input name="exclamacio" type="radio">indefinit<br/>
-                        Percentatge: <input name="percent" type="radio">sense espai <input name="percent" type="radio">amb espai <input name="percent" type="radio">indefinit<br/>
-
-                        
-                    </td>
-                </tr>
             </table>
+
         </div>
         <br/><br/>
         <div id="container">
