@@ -40,10 +40,12 @@
             <h4>Opcions de tipografia</h4>
             <table summary="opcions de tipografia" border="1">
                 <tr>
-                    <td>Exigeix</td>
-                    <td colspan="3"><input type="checkbox">Cometes tipogràfiques
-                        <input type="checkbox">Símbol de tres punts</td>
-
+                    <td>Utilitza</td>
+                    <td colspan="3">
+                        <input type="checkbox" name="cometes_tipografiques" value="cometes_tipografiques" onchange="doit();">Cometes tipogràfiques
+                        <input type="checkbox" name="prioritza_cometes" value="prioritza_cometes" onchange="doit();">Prioritza cometes («“‘ ’”»)<br/>
+                        <input type="checkbox" name="tres_punts" value="cometes_tipografiques" onchange="doit();">Símbol de tres punts<br/>
+                    </td>
                 </tr>
                 <tr>
                     <td>Apòstrof</td>
@@ -125,7 +127,8 @@
                 </tr>
                 <tr>
                     <td>Lèxic</td>
-                    <td colspan="2"><input type="checkbox" name="recomana_preferents" value="recomana_preferents" onchange="doit();" checked> Recomana paraules i formes preferents<br/>
+                    <td colspan="2">
+                        <input type="checkbox" name="recomana_preferents" value="recomana_preferents" onchange="doit();" checked> Recomana paraules i formes preferents<br/>
                         <input type="checkbox" name="evita_colloquials" value="evita_colloquials" onchange="doit();" checked> Evita paraules i formes col·loquials
                     </td>
                 </tr>

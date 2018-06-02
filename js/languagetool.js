@@ -106,22 +106,16 @@ function doit() {
     //if ($("input[name=exclamacio]:checked").val() == "exclamacio_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
     if ($("input[name=exclamacio]:checked").val() == "exclamacio_sempre") {
         typo_enabledRules = typo_enabledRules + ",CA_UNPAIRED_EXCLAMATION"; 
-        typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; 
-    };
+        typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
     if ($("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
     //if ($("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
     if ($("input[name=percent]:checked").val() == "percent_ambespai") {
         typo_enabledRules = typo_enabledRules + ",PERCENT_AMB_ESPAI"; 
         typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI";};
     if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI"; };
-
-    if (!$("input[name=cometes_tipografiques]:checked").val()) {
-        typo_disabledRules = typo_disabledRules + ",COMETES_TIPOGRAFIQUES";
-    };
-
-
-
-
+    if ($("input[name=cometes_tipografiques]:checked").val()) { typo_enabledRules = typo_enabledRules + ",COMETES_TIPOGRAFIQUES"; };
+    if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PUNTS_SUSPENSIUS"; };
+    if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PRIORITZAR_COMETES"; };
 
     //Variant principal: general/valecià/balear
     if ($("input[name=variant]:checked").val() == "variant_general") {
