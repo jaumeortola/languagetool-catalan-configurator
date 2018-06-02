@@ -40,11 +40,12 @@
             <h4>Opcions de tipografia</h4>
             <table summary="opcions de tipografia" border="1">
                 <tr>
-                    <td>Utilitza</td>
+                    <td>Exigeix</td>
                     <td colspan="3">
-                        <input type="checkbox" name="cometes_tipografiques" value="cometes_tipografiques" onchange="doit();">Cometes tipogràfiques
-                        <input type="checkbox" name="prioritza_cometes" value="prioritza_cometes" onchange="doit();">Prioritza cometes («“‘ ’”»)<br/>
-                        <input type="checkbox" name="tres_punts" value="cometes_tipografiques" onchange="doit();">Símbol de tres punts<br/>
+                        <input type="checkbox" name="espais_blancs" value="espais_blancs" onchange="doit();" checked>No duplicar espais en blanc<br/>
+                        <input type="checkbox" name="cometes_tipografiques" value="cometes_tipografiques" onchange="doit();">Cometes tipogràfiques<br/>
+                        <input type="checkbox" name="prioritza_cometes" value="prioritza_cometes" onchange="doit();">Prioritzar cometes («“‘ ’”»)<br/>
+                        <input type="checkbox" name="tres_punts" value="cometes_tipografiques" onchange="doit();">Símbol de tres punts (&hellip;)<br/>
                     </td>
                 </tr>
                 <tr>
@@ -55,8 +56,8 @@
                 </tr>
                 <tr>
                     <td>Guió</td>
-                    <td><input type="radio" name="guio" id="guio_llarg"     value="guio_llarg"     onchange="doit();">llarg</td>
-                    <td><input type="radio" name="guio" id="guio_mitja"     value="guio_mitja"     onchange="doit();">mitjà</td>
+                    <td><input type="radio" name="guio" id="guio_llarg"     value="guio_llarg"     onchange="doit();">llarg (&mdash;)</td>
+                    <td><input type="radio" name="guio" id="guio_mitja"     value="guio_mitja"     onchange="doit();">mitjà (&ndash;)</td>
                     <td><input type="radio" name="guio" id="guio_indefinit" value="guio_indefinit" onchange="doit();" checked>indefinit</td>
                 </tr>
                 <tr>

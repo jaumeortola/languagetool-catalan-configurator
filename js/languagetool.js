@@ -116,6 +116,7 @@ function doit() {
     if ($("input[name=cometes_tipografiques]:checked").val()) { typo_enabledRules = typo_enabledRules + ",COMETES_TIPOGRAFIQUES"; };
     if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PUNTS_SUSPENSIUS"; };
     if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PRIORITZAR_COMETES"; };
+    if (!$("input[name=espais_blancs]:checked").val()) { typo_disabledRules = typo_disabledRules + ",WHITESPACE_RULE"; };
 
     //Variant principal: general/valecià/balear
     if ($("input[name=variant]:checked").val() == "variant_general") {
