@@ -1,42 +1,47 @@
+var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius', 'accentuacio', 'concorda_dues', 
+   'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent');
+var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'cometes_tipografiques',
+   'prioritza_cometes', 'tres_punts');
+
+
 (function($) {
     $(document).ready(function() {
-        //readCookieStatus();
+        readCookieStatus();
         //update_enabled_rules();
         doit();
     });
 }(jQuery));
 
 function doit() {
-    //saveCookieStatus();
+    saveCookieStatus();
     update_enabled_rules();
 
-    var langCode = "ca-ES-valencia"; //document.checkform.lang.value;
+    // opcions valencià (ca-ES-valencia)
+    var disabledRules = [];
+    var enabledRules = [];
+    var disabledCategories = [];
 
-    //select rules 
-    //common rules
-    var disabledRules = ""; //WHITESPACE_RULE,PERCENT_SENSE_ESPAI,AL_INFINITIU,EVITA_INFINITIUS_INDRE,ORTO_IEC2017,CA_SIMPLE_REPLACE_DNV";
-    var enabledRules = ""; //PRE_IEC2017";
-    var disabledCategories = ""; //DNV_PRIMARY_FORM";
+    // opcions general (ca-ES)
+    var ca_disabledRules = [];
+    var ca_enabledRules = []; 
+    var ca_disabledCategories = []; 
 
-    var ca_disabledRules = "";
-    var ca_enabledRules = ""; 
-    var ca_disabledCategories = ""; 
-
+    //Opcions de tipografia
+    var typo_enabledRules = [];
+    var typo_disabledRules = [];
 
     if ($("input[name=opcio_general]:checked").val() == "criteris_gva") { 
 
-        disabledRules = disabledRules + "PERCENT_SENSE_ESPAI,AL_INFINITIU,EVITA_INFINITIUS_INDRE,ORTO_IEC2017,CA_SIMPLE_REPLACE_DNV";
+        disabledRules.push("PERCENT_SENSE_ESPAI","AL_INFINITIU","EVITA_INFINITIUS_INDRE","ORTO_IEC2017","CA_SIMPLE_REPLACE_DNV");
 
-        enabledRules = enabledRules + "PRE_IEC2017,LEXIC_VAL,VERBS_I_ANTIHIATICA,EVITA_AQUEIX_EIXE,PREFERENCIES_VERBS_VALENCIANS,NUMERALS_VALENCIANS,PARTICIPIS_IT,ORDINALS_E,"
-        +"EXIGEIX_PLURALS_SCOS,EXIGEIX_PLURALS_JOS,EXIGEIX_PLURALS_S,EXIGEIX_INFINITIUS_INDRE,EXIGEIX_INFINITIUS_ALDRE,EXIGEIX_US,HUI";
+        enabledRules.push("PRE_IEC2017","LEXIC_VAL","VERBS_I_ANTIHIATICA","EVITA_AQUEIX_EIXE","PREFERENCIES_VERBS_VALENCIANS","NUMERALS_VALENCIANS","PARTICIPIS_IT","ORDINALS_E","EXIGEIX_PLURALS_SCOS","EXIGEIX_PLURALS_JOS","EXIGEIX_PLURALS_S","EXIGEIX_INFINITIUS_INDRE","EXIGEIX_INFINITIUS_ALDRE","EXIGEIX_US,HUI");
 
-        disabledCategories = "DNV_PRIMARY_FORM";       
+        disabledCategories.push("DNV_PRIMARY_FORM");       
 
     } else if ($("input[name=opcio_general]:checked").val() == "criteris_uv") {
-        disabledRules = disabledRules + "ORTO_IEC2017,EXIGEIX_ACCENTUACIO_VALENCIANA";
+        disabledRules.push("ORTO_IEC2017","EXIGEIX_ACCENTUACIO_VALENCIANA");
 
-        enabledRules = enabledRules + "PRE_IEC2017,VERBS_I_ANTIHIATICA,EVITA_AQUEIX_EIXE,PREFERENCIES_VERBS_VALENCIANS,PARTICIPIS_IT,ORDINALS_E,"
-        +"EXIGEIX_PLURALS_SCOS,EXIGEIX_PLURALS_JOS,EXIGEIX_PLURALS_S,EXIGEIX_INFINITIUS_ALDRE,EXIGEIX_US,EXIGEIX_ACCENTUACIO_GENERAL,EXIGEIX_TENIR_VENIR,LEXIC_VAL,NUMERALS_GENERALS,AVUI,PREFERENCIES_LEXIC_UNIVERSITATS";
+        enabledRules.push("PRE_IEC2017","VERBS_I_ANTIHIATICA","EVITA_AQUEIX_EIXE","PREFERENCIES_VERBS_VALENCIANS","PARTICIPIS_IT","ORDINALS_E","EXIGEIX_PLURALS_SCOS","EXIGEIX_PLURALS_JOS","EXIGEIX_PLURALS_S","EXIGEIX_INFINITIUS_ALDRE","EXIGEIX_US","EXIGEIX_ACCENTUACIO_GENERAL","EXIGEIX_TENIR_VENIR","LEXIC_VAL","NUMERALS_GENERALS","AVUI","PREFERENCIES_LEXIC_UNIVERSITATS");
 
         
     } else {
@@ -44,108 +49,104 @@ function doit() {
 
         /* incoatius -eix/-ix */
         if ($("input[name=incoatius]:checked").val() == "incoatius_ix") {
-            enabledRules = enabledRules + ",EXIGEIX_VERBS_IX";
-            disabledRules = disabledRules + ",EXIGEIX_VERBS_EIX";
+            enabledRules.push("EXIGEIX_VERBS_IX");
+            disabledRules.push("EXIGEIX_VERBS_EIX");
         };
         /* incoatius -esc/-isc */
         if ($("input[name=incoatius2]:checked").val() == "incoatius_esc") {
-            enabledRules = enabledRules + ",EXIGEIX_VERBS_ESC";
-            disabledRules = disabledRules + ",EXIGEIX_VERBS_ISC";
+            enabledRules.push("EXIGEIX_VERBS_ESC");
+            disabledRules.push("EXIGEIX_VERBS_ISC");
         };
         /* demostratius aquest/este */
         if ($("input[name=demostratius]:checked").val() == "demostratius_este") {
-            enabledRules = enabledRules + ",EVITA_DEMOSTRATIUS_AQUEST";
-            disabledRules = disabledRules + ",EVITA_DEMOSTRATIUS_ESTE";
+            enabledRules.push("EVITA_DEMOSTRATIUS_AQUEST");
+            disabledRules.push("EVITA_DEMOSTRATIUS_ESTE");
         };
         /* accentuació café /cafè */
         if ($("input[name=accentuacio]:checked").val() == "accentuacio_general") {
-            enabledRules = enabledRules + ",EXIGEIX_ACCENTUACIO_GENERAL";
-            disabledRules = disabledRules + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+            enabledRules.push("EXIGEIX_ACCENTUACIO_GENERAL");
+            disabledRules.push("EXIGEIX_ACCENTUACIO_VALENCIANA");
         };
         /* concordança dos/dues */
         if ($("input[name=concorda_dues]:checked").val() == "concorda_dos") {
-            enabledRules = enabledRules + ",CONCORDANCES_NUMERALS_DOS";
-            disabledRules = disabledRules + ",CONCORDANCES_NUMERALS_DUES";
+            enabledRules.push("CONCORDANCES_NUMERALS_DOS");
+            disabledRules.push("CONCORDANCES_NUMERALS_DUES");
         };
     }
 
     /* municipis nom valencià/oficial */
     if ($("input[name=municipis]:checked").val() == "municipi_nom_oficial" && $("input[name=opcio_general]:checked").val() != "criteris_uv") {
-        enabledRules = enabledRules + ",MUNICIPIS_OFICIAL";
-        disabledRules = disabledRules + ",MUNICIPIS_VALENCIA";
+        enabledRules.push("MUNICIPIS_OFICIAL");
+        disabledRules.push("MUNICIPIS_VALENCIA");
     };
 
     // paraules preferents
     if (!$("input[name=recomana_preferents]:checked").val()) {
-        disabledCategories = disabledCategories + ",DNV_SECONDARY_FORM";
-        disabledRules = disabledRules + ",CA_SIMPLE_REPLACE_DNV_SECONDARY";
+        disabledCategories.push("DNV_SECONDARY_FORM");
+        disabledRules.push("CA_SIMPLE_REPLACE_DNV_SECONDARY");
     };
     // terminació -iste
     if (!$("input[name=recomana_preferents]:checked").val() &&
         $("input[name=opcio_general]:checked").val() == "criteris_cap") {
-        disabledRules = disabledRules + ",EVITA_ISTE";
+        disabledRules.push("EVITA_ISTE");
     }
     // paraules col·loquials
     if (!$("input[name=evita_colloquials]:checked").val()) {
-        disabledCategories = disabledCategories + ",DNV_COLLOQUIAL";
-        disabledRules = disabledRules + ",CA_SIMPLE_REPLACE_DNV_COLLOQUIAL";
+        disabledCategories.push("DNV_COLLOQUIAL");
+        disabledRules.push("CA_SIMPLE_REPLACE_DNV_COLLOQUIAL");
     };
 
-    //Opcions de tipografia
-    var typo_enabledRules = "";
-    var typo_disabledRules = "";
-
-    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules = typo_enabledRules + ",APOSTROF_TIPOGRAFIC"; };
-    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules = typo_enabledRules + ",APOSTROF_RECTE"; };
-    if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules = typo_enabledRules + ",GUIO_LLARG"; };
-    if ($("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules = typo_enabledRules + ",GUIO_MITJA"; };
-    if ($("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules = typo_enabledRules + ",GUIO_SENSE_ESPAI"; };
-    if ($("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules = typo_enabledRules + ",GUIO_ESPAI"; };
-    if ($("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_INTERROGACIO_INICIAL"; };
-    if ($("input[name=interrogant]:checked").val() == "interrogant_sempre") {typo_enabledRules = typo_enabledRules + ",CA_UNPAIRED_QUESTION"; };
+    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC"); };
+    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE"); };
+    if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
+    if ($("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
+    if ($("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
+    if ($("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules.push("GUIO_ESPAI"); };
+    if ($("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules.push("EVITA_INTERROGACIO_INICIAL"); };
+    if ($("input[name=interrogant]:checked").val() == "interrogant_sempre") {typo_enabledRules.push("CA_UNPAIRED_QUESTION"); };
     //if ($("input[name=exclamacio]:checked").val() == "exclamacio_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
     if ($("input[name=exclamacio]:checked").val() == "exclamacio_sempre") {
-        typo_enabledRules = typo_enabledRules + ",CA_UNPAIRED_EXCLAMATION"; 
-        typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
-    if ($("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules = typo_disabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
+        typo_enabledRules.push("CA_UNPAIRED_EXCLAMATION"); 
+        typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
+    if ($("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
     //if ($("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
     if ($("input[name=percent]:checked").val() == "percent_ambespai") {
-        typo_enabledRules = typo_enabledRules + ",PERCENT_AMB_ESPAI"; 
-        typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI";};
-    if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules = typo_disabledRules + ",PERCENT_SENSE_ESPAI"; };
-    if ($("input[name=cometes_tipografiques]:checked").val()) { typo_enabledRules = typo_enabledRules + ",COMETES_TIPOGRAFIQUES"; };
-    if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PUNTS_SUSPENSIUS"; };
-    if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules = typo_enabledRules + ",PRIORITZAR_COMETES"; };
-    if (!$("input[name=espais_blancs]:checked").val()) { typo_disabledRules = typo_disabledRules + ",WHITESPACE_RULE"; };
+        typo_enabledRules.push("PERCENT_AMB_ESPAI"); 
+        typo_disabledRules.push("PERCENT_SENSE_ESPAI");};
+    if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
+    if ($("input[name=cometes_tipografiques]:checked").val()) { typo_enabledRules.push("COMETES_TIPOGRAFIQUES"); };
+    if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
+    if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
+    if (!$("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
 
     //Variant principal: general/valecià/balear
     if ($("input[name=variant]:checked").val() == "variant_general") {
     } else if ($("input[name=variant]:checked").val() == "variant_valencia") {
-      ca_enabledRules = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
-      ca_disabledRules = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
-      ca_enabledRules = ca_enabledRules +","+ enabledRules;
-      ca_disabledRules = ca_disabledRules +","+ disabledRules;
-      ca_disabledCategories = disabledCategories;
+      ca_enabledRules.push("EXIGEIX_VERBS_VALENCIANS","EXIGEIX_POSSESSIUS_U");
+      ca_disabledRules.push("EXIGEIX_VERBS_CENTRAL","EVITA_DEMOSTRATIUS_EIXE","EXIGEIX_POSSESSIUS_V");
+      pushArray(ca_enabledRules, enabledRules);
+      pushArray(ca_disabledRules, disabledRules);
+      pushArray(ca_disabledCategories, disabledCategories);
     } else if ($("input[name=variant]:checked").val() == "variant_balear") {
-      ca_enabledRules = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-      ca_disabledRules = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
+      ca_enabledRules.push("EXIGEIX_VERBS_BALEARS");
+      ca_disabledRules.push("EXIGEIX_VERBS_CENTRAL","CA_SIMPLE_REPLACE_BALEARIC");
     }
 
-    ca_enabledRules = ca_enabledRules + "," + typo_enabledRules;
-    ca_disabledRules = ca_disabledRules + "," + typo_disabledRules;
-    enabledRules = enabledRules + "," + typo_enabledRules;
-    disabledRules = disabledRules + "," + typo_disabledRules;
+    pushArray(ca_enabledRules, typo_enabledRules);
+    pushArray(ca_disabledRules, typo_disabledRules);
+    pushArray(enabledRules, typo_enabledRules);
+    pushArray(disabledRules, typo_disabledRules);
 
     var today = new Date();
     $('#output_text').html(
         "#LanguageTool Catalan configuration\n" +
         "#" + today + "\n" +
-        "disabledRules.ca-ES=" + ca_disabledRules + "\n" +
-        "enabledRules.ca-ES=" + ca_enabledRules + "\n" +
-        "disabledCategories.ca-ES=" + ca_disabledCategories + "\n" +
-        "disabledRules." + langCode + "=" + disabledRules + "\n" +
-        "enabledRules." + langCode + "=" + enabledRules + "\n" +
-        "disabledCategories." + langCode + "=" + disabledCategories + "\n"
+        "disabledRules.ca-ES=" + ca_disabledRules.join() + "\n" +
+        "enabledRules.ca-ES=" + ca_enabledRules.join() + "\n" +
+        "disabledCategories.ca-ES=" + ca_disabledCategories.join() + "\n" +
+        "disabledRules.ca-ES-valencia=" + disabledRules.join() + "\n" +
+        "enabledRules.ca-ES-valencia=" + enabledRules.join() + "\n" +
+        "disabledCategories.ca-ES-valencia=" + disabledCategories.join() + "\n"
         );
  
     const MIME_TYPE = 'text/plain';
@@ -163,6 +164,10 @@ function doit() {
     output.innerHTML = '';
     output.appendChild(a);
 
+}
+
+function pushArray(arr, arr2) {
+    arr.push.apply(arr, arr2);
 }
 
 
@@ -191,15 +196,11 @@ function getCookie(cname) {
 }
 
 function saveCookieStatus() {
-    var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius',
-        'accentuacio', 'concorda_dues', 'municipis', 'variant');
     $.each(regles_amb_radio, function(index, nom) {
         var valor = $('[type="radio"][name="' + nom + '"]:checked').val();
         setCookie(nom, valor, 365);
     });
 
-    var regles_amb_checkbox = Array('recomana_preferents',
-        'evita_colloquials');
     $.each(regles_amb_checkbox, function(index, nom) {
         var valor = $('input[name=' + nom + ']:checked').val();
         if (valor) {
@@ -212,8 +213,6 @@ function saveCookieStatus() {
 }
 
 function readCookieStatus() {
-    var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius',
-        'accentuacio', 'concorda_dues', 'municipis', 'variant');
     $.each(regles_amb_radio, function(index, nom) {
         var valor = getCookie(nom);
         if (valor !== undefined) {
@@ -222,8 +221,6 @@ function readCookieStatus() {
         }
     });
 
-    var regles_amb_checkbox = Array('recomana_preferents',
-        'evita_colloquials');
     $.each(regles_amb_checkbox, function(index, nom) {
         var valor = getCookie(nom);
         if (valor !== undefined) {
