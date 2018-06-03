@@ -1,7 +1,6 @@
 var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius', 'accentuacio', 'concorda_dues', 
    'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent');
-var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'cometes_tipografiques',
-   'prioritza_cometes', 'tres_punts');
+var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts');
 
 
 (function($) {
@@ -96,8 +95,8 @@ function doit() {
         disabledRules.push("CA_SIMPLE_REPLACE_DNV_COLLOQUIAL");
     };
 
-    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC"); };
-    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE"); };
+    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
+    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
     if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
     if ($("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
     if ($("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
@@ -114,7 +113,6 @@ function doit() {
         typo_enabledRules.push("PERCENT_AMB_ESPAI"); 
         typo_disabledRules.push("PERCENT_SENSE_ESPAI");};
     if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
-    if ($("input[name=cometes_tipografiques]:checked").val()) { typo_enabledRules.push("COMETES_TIPOGRAFIQUES"); };
     if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
     if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
     if (!$("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
