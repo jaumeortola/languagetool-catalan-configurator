@@ -3,7 +3,10 @@
     <meta charset="UTF-8">
     <title>Configurador de LanguageTool en català</title>
     <head>
+        <link href="online-check/tiny_mce/plugins/atd-tinymce/css/content.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="js/jquery-1.7.0.min.js"></script>
+        <script type="text/javascript" src="online-check/tiny_mce/tiny_mce.js"></script>
+        <script type="text/javascript" src="online-check/tiny_mce/plugins/atd-tinymce/editor_plugin2.js"></script>
         <script type="text/javascript" src="js/languagetool.js"></script>
         <style>
 	  table {
@@ -11,7 +14,7 @@
 	    border: .5px solid black;
 	  }
 	  td, th {
-	    padding: 2px;
+	    padding: 4px;
 	  }
 	  .noborder {
 	    border: 0px;
@@ -20,12 +23,19 @@
     </head>
     <body>
         <h2>Configurador de LanguageTool en català</h2>
-        <input type="hidden" name="lang" value="ca-ES-valencia"/>
-        <div>
-            <div id="feedbackErrorMessage" style="color: red;">
-                <noscript>JavaScript està desactivat. La pàgina no funcionarà.</noscript>
+
+        <form name="checkform" action="" method="post">
+            <p id="checktextpara">
+                <textarea id="checktext" name="text" style="width: 100%" rows="4"></textarea>
+            </p>
+            <div>
+                <input type="hidden" name="lang" value="ca-ES-valencia"/>
+                <input type="submit" name="_action_checkText" value="Revisa" onClick="dochecktext();return false;">
+                  <div id="feedbackErrorMessage" style="color: red;"><noscript>JavaScript està desactivat. El corrector no funcionarà.</noscript></div>
+                  <br/><a class="textpetit" href="javascript:void(0)" onclick="javascript:insertDemoText();">Insereix un text de prova</a>
             </div>
-        </div>
+        </form>
+
         <!--Opcions-->
         <div id="opcions_valencia">
             <h4>Variant</h4>
@@ -36,8 +46,21 @@
                     <td><input type="radio" name="variant" id="variant_balear"   value="variant_balear"   onchange="doit();">balear</td>
                 </tr>
             </table>
-
-            <h4>Opcions de tipografia</h4>
+            <br/>
+            <table summary="opcions" border="1">
+                <tr>
+                    <td>Diacrítics</td>
+                    <td><input type="radio" name="diacritics" id="diacritics_tradicional" value="diacritics_tradicional" onchange="doit();" checked>Tradicionals (dóna)</td>
+                    <td><input type="radio" name="diacritics" id="diacritics_iec" value="diacritics_iec" onchange="doit();">IEC 2017 (dona)</td>
+                </tr>
+                <tr>
+                    <td>Pronom 'se'</d>
+                    <td><input type="radio" name="pronom_se" id="pronom_se_centra" value="pronom_se_centra" onchange="doit();" checked>'se centra'</td>
+                    <td><input type="radio" name="pronom_se" id="pronom_se_indiferent" value="pronom_se_indiferent" onchange="doit();">'se/es centra'</td>
+                  </tr>
+            </table>
+         
+            <h4>Tipografia</h4>
             <table summary="opcions de tipografia" border="1">
                 <tr>
                     <td>Exigeix</td>
@@ -89,9 +112,9 @@
                 <tr>
                     <td>Llibre d'estil</td>
                     <td colspan="2">
-                        <input type="radio" name="opcio_general" id="criteris_gva" value="criteris_gva" onchange="doit();" checked> <a href="http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf" target="_blank">Criteris de l'Administració de la Generalitat</a><br/>
+                        <input type="radio" name="opcio_general" id="criteris_gva" value="criteris_gva" onchange="doit();"> <a href="http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf" target="_blank">Criteris de l'Administració de la Generalitat</a><br/>
                         <input type="radio" name="opcio_general" id="criteris_uv" value="criteris_uv" onchange="doit();"> <a href="https://sl.ua.es/en/assessorament/documentos/criteris-linguistics.pdf" target="_blank">Universitats valencianes</a><br/>
-                        <input type="radio" name="opcio_general" id="criteris_cap" value="criteris_cap" onchange="doit();"> Cap<br/>
+                        <input type="radio" name="opcio_general" id="criteris_cap" value="criteris_cap" onchange="doit();" checked> Cap<br/>
                     </td>
                 </tr>
                 <tr>
@@ -137,8 +160,8 @@
         </div>
         <br/><br/>
         <div id="container">
-            <textarea id="output_text" rows="10" cols="100" readonly></textarea><br/>
-            <output></output>
+            <output></output><br/><br/>
+            <div id="output_text" style="white-space: pre;"></div><br/>
         </div>
     </body>
 </html>

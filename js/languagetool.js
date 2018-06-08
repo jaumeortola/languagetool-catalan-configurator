@@ -1,7 +1,8 @@
 var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius', 'accentuacio', 'concorda_dues', 
-   'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent');
+   'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent', 'diacritics', 'pronom_se');
 var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts');
-
+var langCode="ca-ES";
+var userOptions="";
 
 (function($) {
     $(document).ready(function() {
@@ -10,6 +11,105 @@ var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'esp
         doit();
     });
 }(jQuery));
+
+
+function insertDemoText() {
+  var myDemoText = "Soc un os bru que menja mores. Dona-li el pregadeu en el paleosol i adeu-siau. Sóc un ós bru que menja móres. Dóna-li el pregadéu en el paleosòl i adéu-siau.";
+  tinyMCE.activeEditor.setContent(myDemoText);
+}
+
+
+tinyMCE.init({
+  mode: "textareas",
+  plugins: "AtD,paste",
+  paste_text_sticky: true,
+  setup: function(ed) {
+    ed.onInit.add(function(ed) {
+      ed.pasteAsPlainText = true;
+    });
+  },
+  /* translations: */
+  languagetool_i18n_no_errors: {
+    // "No errors were found.":
+    "ca": "No s\'ha trobat cap error",
+    'ca-ES-valencia': 'No s\'ha trobat cap error'
+  },
+  languagetool_i18n_explain: {
+    // "Explain..." - shown if there is an URL with a detailed description:
+    'ca': 'Més informació…',
+    'ca-ES-valencia': 'Més informació…'
+  },
+  languagetool_i18n_ignore_once: {
+    // "Ignore this error":
+    'ca': 'Ignora aquest error',
+    'ca-ES-valencia': 'Ignora aquest error'
+  },
+  languagetool_i18n_ignore_all: {
+    // "Ignore this kind of error":
+    'ca': 'Ignora aquesta classe d\'errors',
+    'ca-ES-valencia': 'Ignora aquesta classe d\'errors'
+  },
+  languagetool_i18n_rule_implementation: {
+    // "Rule implementation":
+    'ca': 'Informació sobre la regla...',
+    'ca-ES-valencia': 'Informació sobre la regla...',
+  },
+  languagetool_i18n_edit_manually: {
+    'ca': 'Edita manualment',
+    'ca-ES-valencia': 'Edita manualment'
+  },
+  languagetool_i18n_suggest_word: {
+    // "Suggest word for dictionary...": 
+    // *** Also set languagetool_i18n_suggest_word_url below if you set this ***
+    'ca': 'Suggereix una paraula per al diccionari...',
+    'ca-ES-valencia': 'Suggereix una paraula per al diccionari...'
+  },
+  languagetool_i18n_suggest_word_url: {
+    // "Suggest word for dictionary...":
+    'ca': 'http://community.languagetool.org/suggestion?word={word}&lang=ca',
+    'ca-ES-valencia': 'http://community.languagetool.org/suggestion?word={word}&lang=ca'
+  },
+
+  languagetool_i18n_current_lang: function() {
+    return document.checkform.lang.value;
+  },
+  /* The URL of your LanguageTool server.
+     If you use your own server here and it's not running on the same domain 
+     as the text form, make sure the server gets started with '--allow-origin ...' 
+     and use 'https://your-server/v2/check' as URL: */
+  languagetool_rpc_url: "http://riuraueditors.cat/lt-api/v2/check",
+  /* edit this file to customize how LanguageTool shows errors: */
+  languagetool_css_url: "online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
+  /* this stuff is a matter of preference: */
+  theme: "advanced",
+  theme_advanced_buttons1: "",
+  theme_advanced_buttons2: "",
+  theme_advanced_buttons3: "",
+  theme_advanced_toolbar_location: "none",
+  theme_advanced_toolbar_align: "left",
+  theme_advanced_statusbar_location: "none", //"bottom",
+  theme_advanced_path: false,
+  theme_advanced_resizing: true,
+  theme_advanced_resizing_use_cookie: false,
+  gecko_spellcheck: false
+});
+
+function dochecktext() {
+  var maxTextLength = 30000;
+  var userText = tinyMCE.activeEditor.getContent();
+  if (userText.length > maxTextLength) {
+    var errorText = "Error: el text és massa llarg (" + userText.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
+    $('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
+  } else {
+    //normalize text
+    if (String.prototype.hasOwnProperty('normalize')) {
+      var normalizedText = userText.normalize("NFC");
+      tinyMCE.activeEditor.setContent(normalizedText);
+    }
+  }
+  //alert(langCode + " " + userOptions);
+  tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
+}
 
 function doit() {
     saveCookieStatus();
@@ -28,6 +128,7 @@ function doit() {
     //Opcions de tipografia
     var typo_enabledRules = [];
     var typo_disabledRules = [];
+    var typo_disabledCategories = [];
 
     if ($("input[name=opcio_general]:checked").val() == "criteris_gva") { 
 
@@ -95,6 +196,8 @@ function doit() {
         disabledRules.push("CA_SIMPLE_REPLACE_DNV_COLLOQUIAL");
     };
 
+    if ($("input[name=diacritics]:checked").val() == "diacritics_iec") {typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); };
+    if ($("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
     if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
     if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
     if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
@@ -132,8 +235,10 @@ function doit() {
 
     pushArray(ca_enabledRules, typo_enabledRules);
     pushArray(ca_disabledRules, typo_disabledRules);
+    pushArray(ca_disabledCategories, typo_disabledCategories);
     pushArray(enabledRules, typo_enabledRules);
     pushArray(disabledRules, typo_disabledRules);
+    pushArray(disabledCategories, typo_disabledCategories);
 
     var today = new Date();
     $('#output_text').html(
@@ -146,7 +251,20 @@ function doit() {
         "enabledRules.ca-ES-valencia=" + enabledRules.join() + "\n" +
         "disabledCategories.ca-ES-valencia=" + disabledCategories.join() + "\n"
         );
- 
+
+    userOptions=""; 
+    if ($("input[name=variant]:checked").val() == "variant_valencia") {
+	langCode="ca-ES-valencia";
+        if (disabledRules.join()) { userOptions += "&disabledRules=" + disabledRules.join(); }
+        if (enabledRules.join()) { userOptions += "&enabledRules=" + enabledRules.join(); }
+        if (disabledCategories.join()) { userOptions += "&disabledCategories=" + disabledCategories.join(); }
+    } else {
+	langCode="ca-ES";
+        if (ca_disabledRules.join()) { userOptions += "&disabledRules=" + ca_disabledRules.join(); }
+        if (ca_enabledRules.join()) { userOptions += "&enabledRules=" + ca_enabledRules.join(); }
+        if (ca_disabledCategories.join()) { userOptions += "&disabledCategories=" + ca_disabledCategories.join(); }
+    }
+
     const MIME_TYPE = 'text/plain';
     var container = document.querySelector('#container');
     var output = container.querySelector('output');
@@ -155,7 +273,7 @@ function doit() {
     var a = document.createElement('a');
     a.download = "languagetool-ooo.cfg"; 
     a.href = window.URL.createObjectURL(bb);
-    a.textContent = 'Baixa com a fitxer';
+    a.textContent = 'Baixa la configuració com a fitxer';
     a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
     a.draggable = true; // Don't really need, but good practice.
     a.classList.add('dragout');
