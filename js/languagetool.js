@@ -14,7 +14,7 @@ var userOptions="";
 
 
 function insertDemoText() {
-  var myDemoText = "Soc un os bru que menja mores. Dona-li el pregadeu en el paleosol i adeu-siau. Sóc un ós bru que menja móres. Dóna-li el pregadéu en el paleosòl i adéu-siau.";
+  var myDemoText = "Soc un os bru que menja mores. Dona-li el pregadeu en el paleosol i adeu-siau. Sóc un ós bru que menja móres. Dóna-li el pregadéu en el paleosòl i adéu-siau. Has molt la farina? Has mòlt la farina?";
   tinyMCE.activeEditor.setContent(myDemoText);
 }
 
@@ -188,7 +188,7 @@ function doit() {
     // terminació -iste
     if (!$("input[name=recomana_preferents]:checked").val() &&
         $("input[name=opcio_general]:checked").val() == "criteris_cap") {
-        disabledRules.push("EVITA_ISTE");
+        disabledRules.push("EVITA_ISTE","AHI","VULLGA");
     }
     // paraules col·loquials
     if (!$("input[name=evita_colloquials]:checked").val()) {
