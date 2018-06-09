@@ -11,18 +11,28 @@
         <style>
 	  table {
 	    border-collapse: collapse;
-	    border: .5px solid black;
+	    border: 1px solid black;
 	  }
 	  td, th {
 	    padding: 4px;
+            border: 1px solid black;
 	  }
 	  .noborder {
 	    border: 0px;
 	  }
+          #green {color: green;}
+          #feedbackErrorMessage {float: left;}
+          .textpetit {font-size: small;}
         </style>
     </head>
     <body>
         <h2>Configurador de LanguageTool en català</h2>
+
+        <p><b>Formes:</b>
+                    <input type="radio" name="variant" id="variant_general"  value="variant_general"  onchange="doit();" checked>generals
+                    <td><input type="radio" name="variant" id="variant_valencia" value="variant_valencia" onchange="doit();">valencianes
+                    <td><input type="radio" name="variant" id="variant_balear"   value="variant_balear"   onchange="doit();">balears
+        </p>   
 
         <form name="checkform" action="" method="post">
             <p id="checktextpara">
@@ -30,23 +40,15 @@
             </p>
             <div>
                 <input type="hidden" name="lang" value="ca-ES-valencia"/>
-                <input type="submit" name="_action_checkText" value="Revisa" onClick="dochecktext();return false;">
-                  <div id="feedbackErrorMessage" style="color: red;"><noscript>JavaScript està desactivat. El corrector no funcionarà.</noscript></div>
-                  <br/><a class="textpetit" href="javascript:void(0)" onclick="javascript:insertDemoText();">Insereix un text de prova</a>
-            </div>
+                <input type="submit" name="_action_checkText" value="Revisa" style="float:left;" onClick="dochecktext();return false;">
+                  <div id="feedbackErrorMessage" style="color: red;margin-left:5px;"><noscript>JavaScript està desactivat. El corrector no funcionarà.</noscript></div>
+                  <div style="clear:both;"><a class="textpetit" href="javascript:void(0)" onclick="javascript:insertDemoText();">Insereix un text de prova</a></div>
+            </div><br/>
         </form>
-
+        <input type="checkbox" name="mostra_opcions" value="mostra_opcions" onchange="doit();">Mostra més opcions<br/><br/>
         <!--Opcions-->
-        <div id="opcions_valencia">
-            <h4>Variant</h4>
-            <table summary="formes verbals" class="noborder">
-                <tr>
-                    <td><input type="radio" name="variant" id="variant_general"  value="variant_general"  onchange="doit();" checked>general</td>
-                    <td><input type="radio" name="variant" id="variant_valencia" value="variant_valencia" onchange="doit();">valencià</td>
-                    <td><input type="radio" name="variant" id="variant_balear"   value="variant_balear"   onchange="doit();">balear</td>
-                </tr>
-            </table>
-            <br/>
+        <div id="opcionscorreccio">
+            <h4>Opcions</h4>
             <table summary="opcions" border="1">
                 <tr>
                     <td>Diacrítics</td>
@@ -59,8 +61,7 @@
                     <td><input type="radio" name="pronom_se" id="pronom_se_indiferent" value="pronom_se_indiferent" onchange="doit();">'se/es centra'</td>
                   </tr>
             </table>
-         
-            <h4>Tipografia</h4>
+            <h5>Tipografia</h5>
             <table summary="opcions de tipografia" border="1">
                 <tr>
                     <td>Exigeix</td>
@@ -107,7 +108,8 @@
                     <td><input type="radio" name="percent" id="percent_indefinit"  value="percent_indefinit"  onchange="doit();">indefinit</td>
                 </tr>
             </table>
-            <h4>Opcions per al valencià</h4>
+            <div id="opcionscorreccio_valencia"/>
+            <h5>Per al valencià</h5>
             <table summary="opcions de correcció" border="1">
                 <tr>
                     <td>Llibre d'estil</td>
@@ -157,11 +159,15 @@
                 </tr>
             </table>
 
+
         </div>
-        <br/><br/>
+        <br/>
         <div id="container">
             <output></output><br/><br/>
-            <div id="output_text" style="white-space: pre;"></div><br/>
+            <div id="output_text" style="white-space: pre; display: none;"></div><br/>
         </div>
+
+
+            </div>
     </body>
 </html>

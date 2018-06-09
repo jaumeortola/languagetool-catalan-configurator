@@ -1,6 +1,6 @@
 var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius', 'accentuacio', 'concorda_dues', 
    'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent', 'diacritics', 'pronom_se');
-var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts');
+var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts', 'mostra_opcions');
 var langCode="ca-ES";
 var userOptions="";
 
@@ -16,6 +16,20 @@ var userOptions="";
 function insertDemoText() {
   var myDemoText = "Soc un os bru que menja mores. Dona-li el pregadeu en el paleosol i adeu-siau. Sóc un ós bru que menja móres. Dóna-li el pregadéu en el paleosòl i adéu-siau. Has molt la farina? Has mòlt la farina?";
   tinyMCE.activeEditor.setContent(myDemoText);
+}
+
+function showoptions() {
+  if (!$("input[name=mostra_opcions]:checked").val()) {
+    document.getElementById("opcionscorreccio").style.display = "none";
+    document.getElementById("opcionscorreccio_valencia").style.display = "none";
+  } else {
+      document.getElementById("opcionscorreccio").style.display = "initial";
+      if ($("input[name=variant]:checked").val() == "variant_valencia") {
+         document.getElementById("opcionscorreccio_valencia").style.display = "initial"; 
+      } else {
+         document.getElementById("opcionscorreccio_valencia").style.display = "none";
+      }
+  }
 }
 
 
@@ -114,7 +128,7 @@ function dochecktext() {
 function doit() {
     saveCookieStatus();
     update_enabled_rules();
-
+    showoptions();
     // opcions valencià (ca-ES-valencia)
     var disabledRules = [];
     var enabledRules = [];
