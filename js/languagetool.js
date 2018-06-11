@@ -303,66 +303,44 @@ function pushArray(arr, arr2) {
 
 
 // COOKIE
-
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
 function saveCookieStatus() {
+    if (!$.getCookie(SC_COOKIE)) {
+      $.setCookie(SC_COOKIE, '');
+    }
     $.each(regles_amb_radio, function(index, nom) {
         var valor = $('[type="radio"][name="' + nom + '"]:checked').val();
-        setCookie(nom, valor, 365);
+        $.setMetaCookie(nom, SC_COOKIE, valor);
     });
-
     $.each(regles_amb_checkbox, function(index, nom) {
         var valor = $('input[name=' + nom + ']:checked').val();
         if (valor) {
-            setCookie(nom, 1, 365);
+            $.setMetaCookie(nom, SC_COOKIE, 1);
         } else {
-            setCookie(nom, -1, 365);
+            $.setMetaCookie(nom, SC_COOKIE, -1);
         }
     });
-
 }
 
 function readCookieStatus() {
-    $.each(regles_amb_radio, function(index, nom) {
-        var valor = getCookie(nom);
-        if (valor !== undefined) {
-            $('[type="radio"][name="' + nom + '"][value="' + valor + '"]')
-                .attr('checked', 'checked');
-        }
-    });
-
-    $.each(regles_amb_checkbox, function(index, nom) {
-        var valor = getCookie(nom);
-        if (valor !== undefined) {
-            if (valor > 0) {
-                $('input[name=' + nom + ']').attr('checked', 'checked');
-            } else {
-                $('input[name=' + nom + ']').removeAttr('checked');
+    if ($.getCookie(SC_COOKIE)) {
+	$.each(regles_amb_radio, function(index, nom) {
+            var valor = $.getMetaCookie(nom, SC_COOKIE);
+            if (valor !== undefined) {
+		$('[type="radio"][name="' + nom + '"][value="' + valor + '"]')
+                    .attr('checked', 'checked');
             }
-        }
-    });
-
+	});
+	$.each(regles_amb_checkbox, function(index, nom) {
+            var valor = $.getMetaCookie(nom, SC_COOKIE);
+            if (valor !== undefined) {
+		if (valor > 0) {
+                    $('input[name=' + nom + ']').attr('checked', 'checked');
+		} else {
+                    $('input[name=' + nom + ']').removeAttr('checked');
+		}
+            }
+	});
+    }
     update_enabled_rules();
 }
 
