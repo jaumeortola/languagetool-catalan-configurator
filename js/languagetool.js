@@ -3,6 +3,7 @@ var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demost
 var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts', 'mostra_opcions');
 var langCode="ca-ES";
 var userOptions="";
+var SC_COOKIE = 'sc-languagetool';
 
 (function($) {
     $(document).ready(function() {
