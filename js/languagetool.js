@@ -8,21 +8,34 @@ var SC_COOKIE = 'sc-languagetool';
 (function($) {
     $(document).ready(function() {
         readCookieStatus();
-        //update_enabled_rules();
-        doit();
+        dooptions();
+
+        $(document).click(function() {
+	    showoptions();
+            dooptions();
+        });
+
+	$('#text_prova').click(function() {
+	    insertDemoText();
+	});
+
+	$('.submit').click(function() {
+            dochecktext();
+	    return false;
+	});
     });
+   
 }(jQuery));
 
 
 function insertDemoText() {
-  var myDemoText = "Soc un os bru que menja mores. Dona-li el pregadeu en el paleosol i adeu-siau. Sóc un ós bru que menja móres. Dóna-li el pregadéu en el paleosòl i adéu-siau. Has molt la farina? Has mòlt la farina?";
+  var myDemoText = "Aquests frases servixen per a probar algun de les errades que detecta el corrector gramaticals. Proveu les variants de flexió verbal: penso, pense, pens. L'accentuació valenciana o general: café o cafè. Paraules errònies segons el context: Et menjaràs tots els canalons? Li va infringir un càstig sever. Errors de sintaxi: la persona amb la que vaig parlar. I algunes altres opcions: Quan es celebrarà la festa? Soc un os bru que menja mores. Sóc un ós bru que menja móres.";
   tinyMCE.activeEditor.setContent(myDemoText);
 }
 
 function showoptions() {
   if (!$("input[name=mostra_opcions]:checked").val()) {
     document.getElementById("opcionscorreccio").style.display = "none";
-    document.getElementById("opcionscorreccio_valencia").style.display = "none";
   } else {
       document.getElementById("opcionscorreccio").style.display = "initial";
       if ($("input[name=variant]:checked").val() == "variant_valencia") {
@@ -35,7 +48,8 @@ function showoptions() {
 
 
 tinyMCE.init({
-  mode: "textareas",
+  mode: "specific_textareas",
+  editor_selector: "lt",
   plugins: "AtD,paste",
   paste_text_sticky: true,
   setup: function(ed) {
@@ -126,7 +140,7 @@ function dochecktext() {
   tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
 }
 
-function doit() {
+function dooptions() {
     saveCookieStatus();
     update_enabled_rules();
     showoptions();

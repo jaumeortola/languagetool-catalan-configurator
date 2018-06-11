@@ -29,24 +29,56 @@
     <body>
         <h2>Configurador de LanguageTool en català</h2>
 
-        <p><b>Formes:</b>
-                    <input type="radio" name="variant" id="variant_general"  value="variant_general"  onchange="doit();" checked>generals
-                    <td><input type="radio" name="variant" id="variant_valencia" value="variant_valencia" onchange="doit();">valencianes
-                    <td><input type="radio" name="variant" id="variant_balear"   value="variant_balear"   onchange="doit();">balears
-        </p>   
+<form class="formulari form-horizontal"  name="checkform" method="post">
+<div class="corrector-textarea form-group">
+  <div class="col-xs-12">
+<!-- .btns-corrector -->
+<div class="btns-corrector row">
+  <div class="col-xs-12">
+    <!-- .formes  -->
+    <div class="formes">
+        <p>Formes:</p>
+	  <label class="radio-inline">
+	    <input type="radio" name="variant" id="variant_general" value="variant_general" checked> generals
+	      </label>
+	    <label class="radio-inline">
+	      <input type="radio" name="variant" id="variant_valencia" value="variant_valencia" /> valencianes
+	        </label>
+	      <label class="radio-inline">
+		<input type="radio" name="variant" id="variant_balear" value="variant_balear" /> balears
+		  </label>
+	      </div><!--/.formes -->
 
-        <form name="checkform" action="" method="post">
-            <p id="checktextpara">
-                <textarea id="checktext" name="text" style="width: 100%" rows="4"></textarea>
-            </p>
-            <div>
-                <input type="hidden" name="lang" value="ca-ES-valencia"/>
-                <input type="submit" name="_action_checkText" value="Revisa" style="float:left;" onClick="dochecktext();return false;">
-                  <div id="feedbackErrorMessage" style="color: red;margin-left:5px;"><noscript>JavaScript està desactivat. El corrector no funcionarà.</noscript></div>
-                  <div style="clear:both;"><a class="textpetit" href="javascript:void(0)" onclick="javascript:insertDemoText();">Insereix un text de prova</a></div>
-            </div><br/>
-        </form>
-        <input type="checkbox" name="mostra_opcions" value="mostra_opcions" onchange="doit();">Mostra més opcions<br/><br/>
+    <div class="btn-right">
+        <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
+        <input type="hidden" name="lang" value="ca"/>
+     </div>
+
+  </div>
+</div><!--/.btns-corrector -->
+
+<!-- comença el formulari -->
+<div class="textcorrectorgram">
+
+  <p id="checktextpara">
+    <textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="6"></textarea>
+    </p>
+  <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
+
+</div>
+</div>
+</div>
+
+<div class="traductor-checkbox form-group">
+  <div class="col-sm-12">
+    <div class="checkbox checkbox-corrector">
+        <a id="text_prova" href="#">Insereix un text de prova</a>
+	  <label class="checkbox-inline">
+	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Mostra més opcions<br/><br/>
+	      </label>
+	  </div>
+
+
         <!--Opcions-->
         <div id="opcionscorreccio">
             <h4>Opcions</h4>
@@ -159,16 +191,34 @@
                     </td>
                 </tr>
             </table>
-
-
-        </div>
-        <br/>
-        <div id="container">
-            <output></output><br/><br/>
-            <div id="output_text" style="white-space: pre; display: none;"></div><br/>
-        </div>
-
-
             </div>
+            <br/>
+            <div id="container">
+                <output></output><br/><br/>
+                <div id="output_text" style="white-space: pre; display: none;"></div><br/>
+            </div>
+        </div> <!-- final opcions -->
+
+
+
+
+
+
+
+
+
+  <div class="bt-extra visible-xs-block">
+    <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
+  </div>
+
+</div>
+<!-- acaba el formulari-->
+
+
+
+</form>
+
+
     </body>
 </html>
+
