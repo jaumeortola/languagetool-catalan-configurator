@@ -28,7 +28,7 @@
     </head>
     <body>
         <h2>Configurador de LanguageTool en català</h2>
-
+<div id="missatge_usuari"></div>
 <form class="formulari form-horizontal"  name="checkform" method="post">
 <div class="corrector-textarea form-group">
   <div class="col-xs-12">
@@ -74,7 +74,7 @@
     <div class="checkbox checkbox-corrector">
         <a id="text_prova" href="#">Insereix un text de prova</a>
 	  <label class="checkbox-inline">
-	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Mostra més opcions<br/><br/>
+	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Opcions<br/><br/>
 	      </label>
 	  </div>
 
@@ -195,7 +195,7 @@
             <br/>
             <div id="container">
                 <output></output><br/><br/>
-                <div id="output_text" style="white-space: pre; display: none;"></div><br/>
+                <div id="output_text" style="white-space: pre;"></div><br/> <!-- display: none;-->
             </div>
         </div> <!-- final opcions -->
 

@@ -4,6 +4,7 @@ var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'esp
 var langCode="ca-ES";
 var userOptions="";
 var SC_COOKIE = 'sc-languagetool';
+var placeholdervisible = false;
 
 (function($) {
     $(document).ready(function() {
@@ -23,6 +24,7 @@ var SC_COOKIE = 'sc-languagetool';
             dochecktext();
 	    return false;
 	});
+
     });
    
 }(jQuery));
@@ -46,17 +48,45 @@ function showoptions() {
   }
 }
 
+function cursor_at_end() {
+   var ed = tinyMCE.activeEditor;
+   //add an empty span with a unique id
+   var endId = tinymce.DOM.uniqueId();
+   ed.dom.add(ed.getBody(), 'span', {'id': endId}, '');
+
+   //select that span
+   var newNode = ed.dom.select('span#' + endId);
+   ed.selection.select(newNode[0]);
+}
+
+function myHandleEvent(ev) {
+    if (placeholdervisible) {
+        placeholdervisible = false;
+
+        var ed = tinyMCE.activeEditor;
+        ed.setContent("");
+        cursor_at_end();
+    }
+    return true; // Continue handling
+}
 
 tinyMCE.init({
   mode: "specific_textareas",
   editor_selector: "lt",
   plugins: "AtD,paste",
   paste_text_sticky: true,
+
+  handle_event_callback : "myHandleEvent",
   setup: function(ed) {
     ed.onInit.add(function(ed) {
       ed.pasteAsPlainText = true;
+      if (tinyMCE.activeEditor.getContent() == ''){
+         tinyMCE.activeEditor.setContent("Introduïu ací el text que voleu revisar. Vegeu «Opcions» (tipografia, estil, diacrítics).");
+         placeholdervisible = true;
+      } 
     });
   },
+
   /* translations: */
   languagetool_i18n_no_errors: {
     // "No errors were found.":
@@ -129,8 +159,7 @@ function dochecktext() {
   if (userText.length > maxTextLength) {
     var errorText = "Error: el text és massa llarg (" + userText.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
     $('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
-  } else {
-    //normalize text
+  } else {    //normalize text
     if (String.prototype.hasOwnProperty('normalize')) {
       var normalizedText = userText.normalize("NFC");
       tinyMCE.activeEditor.setContent(normalizedText);
