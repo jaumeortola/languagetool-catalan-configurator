@@ -137,7 +137,7 @@ tinyMCE.init({
      If you use your own server here and it's not running on the same domain 
      as the text form, make sure the server gets started with '--allow-origin ...' 
      and use 'https://your-server/v2/check' as URL: */
-  languagetool_rpc_url: "http://riuraueditors.cat/lt-api/v2/check",
+  languagetool_rpc_url: "https://riuraueditors.cat/lt-api/v2/check",
   /* edit this file to customize how LanguageTool shows errors: */
   languagetool_css_url: "online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
   /* this stuff is a matter of preference: */
