@@ -33,6 +33,7 @@ var placeholdervisible = false;
 function insertDemoText() {
   var myDemoText = "Aquests frases servixen per a probar algun de les errades que detecta el corrector gramaticals. Proveu les variants de flexió verbal: penso, pense, pens. L'accentuació valenciana o general: café o cafè. Paraules errònies segons el context: Et menjaràs tots els canalons? Li va infringir un càstig sever. Errors de sintaxi: la persona amb la que vaig parlar. I algunes altres opcions: Quan es celebrarà la festa? Soc un os bru que menja mores. Sóc un ós bru que menja móres.";
   tinyMCE.activeEditor.setContent(myDemoText);
+  placeholdervisible = false;
 }
 
 function showoptions() {
@@ -147,8 +148,8 @@ tinyMCE.init({
   theme_advanced_buttons3: "",
   theme_advanced_toolbar_location: "none",
   theme_advanced_toolbar_align: "left",
-  theme_advanced_statusbar_location: "none", //"bottom",
-  theme_advanced_path: false,
+  theme_advanced_statusbar_location: "bottom", //"none",
+  theme_advanced_path: true,
   theme_advanced_resizing: true,
   theme_advanced_resizing_use_cookie: false,
   gecko_spellcheck: false
