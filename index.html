@@ -27,18 +27,22 @@
 #navi,
 #infoi {
   width: 100%;
-  height: 100%;
+  height: 70%;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 9px;
+  left: 8px;
+
+font-family:Arial;
+font-size:18px;
+color:#AAAAAA
 }
 #infoi {
   z-index: 10;
 }
 #areacorrector {
-
+  width: 772px;
   position: relative;
-        </style>
+}        </style>
     </head>
     <body>
         <h2>Configurador de LanguageTool en català</h2>
@@ -80,7 +84,7 @@
     </p>
   <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
   </div>
-  <div id="infoi"><span style='color:#999999'>Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacrítics) en «Més opcions».</span></div>
+  <div id="infoi">Introduïu ací el text. Vegeu «Més opcions» (diacrítics, tipografia, estil).</div>
 </div>
 </div>
 </div>
@@ -90,7 +94,7 @@
     <div class="checkbox checkbox-corrector">
         <a id="text_prova" href="#">Insereix un text de prova</a>
 	  <label class="checkbox-inline">
-	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Opcions<br/><br/>
+	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Més opcions<br/><br/>
 	      </label>
 	  </div>
 

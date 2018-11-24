@@ -26,11 +26,7 @@ var placeholdervisible = true;
 	});
 
         $( "#infoi" ).on('click',function() {
-           placeholdervisible = false;
-           document.getElementById("infoi").style.zIndex = "-1";   
-           tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");//!!!
-           tinyMCE.get('checktext').focus();
-
+           myHandleEvent();
         });
     });
    
@@ -39,8 +35,9 @@ var placeholdervisible = true;
 
 function insertDemoText() {
   var myDemoText = "Aquests frases servixen per a probar algun de les errades que detecta el corrector gramaticals. Proveu les variants de flexió verbal: penso, pense, pens. L'accentuació valenciana o general: café o cafè. Paraules errònies segons el context: Et menjaràs tots els canalons? Li va infringir un càstig sever. Errors de sintaxi: la persona amb la que vaig parlar. I algunes altres opcions: Quan es celebrarà la festa? Soc un os bru que menja mores. Sóc un ós bru que menja móres.";
-  tinyMCE.activeEditor.setContent(myDemoText);
-  placeholdervisible = false;
+  tinyMCE.get('checktext').setContent(myDemoText);
+  tinyMCE.get('checktext').execCommand('mceInsertContent', false,"");//!!!
+  myHandleEvent();
 }
 
 function showoptions() {
@@ -56,24 +53,19 @@ function showoptions() {
   }
 }
 
-function cursor_at_end() {
-   var ed = tinyMCE.activeEditor;
-   //add an empty span with a unique id
-   var endId = tinymce.DOM.uniqueId();
-   ed.dom.add(ed.getBody(), 'span', {'id': endId}, '');
-   //select that span
-   var newNode = ed.dom.select('span#' + endId);
-   ed.selection.select(newNode[0]);
-}
-
-function myHandleEvent(ev) {
-    if (placeholdervisible) {
-        placeholdervisible = false;
-        document.getElementById("infoi").style.zIndex = "-1";
-        var ed = tinyMCE.activeEditor;
-        ed.setContent("");
-        cursor_at_end();
-    }
+function myHandleEvent() {
+   var userText = tinyMCE.activeEditor.getContent();
+   if (userText.length == 0 || userText == '<p></p>') {
+       placeholdervisible = true;
+       document.getElementById("infoi").style.zIndex = "10";
+       tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");//!!!
+       tinyMCE.get('checktext').focus();
+   } else {
+       placeholdervisible = false;
+       document.getElementById("infoi").style.zIndex = "-1";
+       //tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");//!!!
+       tinyMCE.get('checktext').focus();
+    }    
     return true; // Continue handling
 }
 
@@ -85,15 +77,6 @@ tinyMCE.init({
   paste_text_sticky: true,
   auto_focus : "checktext",
   handle_event_callback : "myHandleEvent",
-  /*setup: function(ed) {
-    ed.onInit.add(function(ed) {
-      ed.pasteAsPlainText = true;
-      if (tinyMCE.activeEditor.getContent() == ''){
-         tinyMCE.activeEditor.setContent("<span style='color:#999999'>Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacrítics) en «Més opcions».</span>");
-         placeholdervisible = true;
-      } 
-    });
-  },*/
 
   /* translations: */
   languagetool_i18n_no_errors: {
@@ -157,6 +140,7 @@ tinyMCE.init({
   theme_advanced_statusbar_location: "bottom", //"none",
   theme_advanced_path: true,
   theme_advanced_resizing: true,
+  theme_advanced_resize_horizontal : false,
   theme_advanced_resizing_use_cookie: false,
   gecko_spellcheck: false
 });
