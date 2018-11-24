@@ -24,6 +24,20 @@
           #green {color: green;}
           #feedbackErrorMessage {float: left;}
           .textpetit {font-size: small;}
+#navi,
+#infoi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#infoi {
+  z-index: 10;
+}
+#areacorrector {
+
+  position: relative;
         </style>
     </head>
     <body>
@@ -58,13 +72,15 @@
 </div><!--/.btns-corrector -->
 
 <!-- comença el formulari -->
-<div class="textcorrectorgram">
+<div id="areacorrector">
 
+  <div id="navii">
   <p id="checktextpara">
     <textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%;" rows="6"></textarea>
     </p>
   <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
-
+  </div>
+  <div id="infoi"><span style='color:#999999'>Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacrítics) en «Més opcions».</span></div>
 </div>
 </div>
 </div>

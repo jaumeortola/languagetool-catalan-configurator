@@ -4,7 +4,7 @@ var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'esp
 var langCode="ca-ES";
 var userOptions="";
 var SC_COOKIE = 'sc-languagetool';
-var placeholdervisible = false;
+var placeholdervisible = true;
 
 (function($) {
     $(document).ready(function() {
@@ -25,6 +25,13 @@ var placeholdervisible = false;
 	    return false;
 	});
 
+        $( "#infoi" ).on('click',function() {
+           placeholdervisible = false;
+           document.getElementById("infoi").style.zIndex = "-1";   
+           tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");//!!!
+           tinyMCE.get('checktext').focus();
+
+        });
     });
    
 }(jQuery));
@@ -54,7 +61,6 @@ function cursor_at_end() {
    //add an empty span with a unique id
    var endId = tinymce.DOM.uniqueId();
    ed.dom.add(ed.getBody(), 'span', {'id': endId}, '');
-
    //select that span
    var newNode = ed.dom.select('span#' + endId);
    ed.selection.select(newNode[0]);
@@ -63,7 +69,7 @@ function cursor_at_end() {
 function myHandleEvent(ev) {
     if (placeholdervisible) {
         placeholdervisible = false;
-
+        document.getElementById("infoi").style.zIndex = "-1";
         var ed = tinyMCE.activeEditor;
         ed.setContent("");
         cursor_at_end();
@@ -77,9 +83,9 @@ tinyMCE.init({
   editor_selector: "lt",
   plugins: "AtD,paste",
   paste_text_sticky: true,
-
+  auto_focus : "checktext",
   handle_event_callback : "myHandleEvent",
-  setup: function(ed) {
+  /*setup: function(ed) {
     ed.onInit.add(function(ed) {
       ed.pasteAsPlainText = true;
       if (tinyMCE.activeEditor.getContent() == ''){
@@ -87,7 +93,7 @@ tinyMCE.init({
          placeholdervisible = true;
       } 
     });
-  },
+  },*/
 
   /* translations: */
   languagetool_i18n_no_errors: {
